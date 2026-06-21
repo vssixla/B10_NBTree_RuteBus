@@ -87,7 +87,7 @@ void TampilkanMenu() {
     printf("|             PROGRAM RUTE BUS TRANSJAKARTA             |\n");
     printf("=========================================================\n");
     printf("Selamat datang di Rute Bus TransJakarta wilayah Jakarta\n\n");
-    printf("Silahkan pilih menu layan di bawah ini!\n");
+    printf("Silahkan pilih menu layanan di bawah ini!\n");
     printf("1. Cek Ketersediaan Halte\n");
     printf("2. Rute Bus dari Blok M menuju suatu Halte\n");
     printf("3. Rute Bus dari suatu Halte menuju BLOK M\n");
@@ -119,4 +119,60 @@ void Menu1(Isi_Tree T, int n) {
         printf("=============================================\n");
         PrintLevelOrder(T, n);
     }
+}
+
+/*========================= MENU 2 =========================*/
+
+void Menu2(Isi_Tree T, int n) {
+    char input[60], nama[60];
+
+    printf("=====================================================================\n");
+    printf("|             RUTE BUS DARI BLOK M MENUJU SUATU HALTE               |\n");
+    printf("=====================================================================\n");
+    printf("Silahkan input Halte yang ingin Anda tuju : ");
+    fgets(input, sizeof(input), stdin);
+    HapusNewline(input);
+    BuangAwalanHalte(input, nama);
+
+    int idx = FindIndex(T, n, nama);
+
+    if (idx == -1) {
+        printf("Mohon maaf Halte %s TIDAK TERSEDIA\n\n", nama);
+        printf("Silahkankan untuk memilih Halte lain,\n");
+        printf("atau melihat Daftar Halte yang TERSEDIA pada menu 1\n\n");
+        printf("Terima Kasih!\n");
+        printf("======================================================================\n");
+        return;
+    }
+
+    printf("Halte %s TERSEDIA\n\n", T[idx].nama);
+
+    int path[MAKS_NODE], len;
+    GetPathArray(T, ROOT, idx, path, &len);
+
+    printf("Untuk menuju Halte %s, silahkan mengikuti jalur Halte berikut ini!\n", T[idx].nama);
+    for (int i = 0; i < len; i++) {
+        printf("Halte %s", T[path[i]].nama);
+        if (i != len - 1) printf(" -> ");
+    }
+    printf("\n\n");
+
+    float totalJarak = 0;
+    for (int i = 1; i < len; i++) {
+        totalJarak += T[path[i]].jarak;
+    }
+    int pemberhentian = len;
+    int biaya = pemberhentian * BIAYA_PER_HALTE;
+
+    char strJarak[20], strBiaya[30];
+    FormatJarak(totalJarak, strJarak);
+    FormatBiaya(biaya, strBiaya);
+
+    printf("KETERANGAN\n");
+    printf("TOTAL JARAK YANG DITEMPUH \t: %s Kilometer\n", strJarak);
+    printf("BANYAK PEMBERHENTIAN \t\t: %d Halte Bus\n", pemberhentian);
+    printf("ESTIMASI BIAYA \t\t\t: %s\n\n", strBiaya);
+
+    printf("Selamat berjalan dan hati-hati dalam perjalanan!\n");
+    printf("======================================================================\n");
 }
