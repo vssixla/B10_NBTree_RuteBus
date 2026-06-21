@@ -177,6 +177,62 @@ void Menu2(Isi_Tree T, int n) {
     printf("======================================================================\n");
 }
 
+/*========================= MENU 3 =========================*/
+
+void Menu3(Isi_Tree T, int n) {
+    char input[60], nama[60];
+
+    printf("=====================================================================\n");
+    printf("|              RUTE BUS DARI SUATU HALTE MENUJU BLOK M              |\n");
+    printf("=====================================================================\n");
+    printf("Silahkan input Halte anda berada saat ini : ");
+    fgets(input, sizeof(input), stdin);
+    HapusNewline(input);
+    BuangAwalanHalte(input, nama);
+
+    int idx = FindIndex(T, n, nama);
+
+    if (idx == -1) {
+        printf("Mohon maaf Halte %s TIDAK TERSEDIA\n\n", nama);
+        printf("Silahkankan untuk memilih Halte lain,\n");
+        printf("atau melihat Daftar Halte yang TERSEDIA pada menu 1\n\n");
+        printf("Terima Kasih!\n");
+        printf("=====================================================================\n");
+        return;
+    }
+
+    printf("Halte %s TERSEDIA\n\n", T[idx].nama);
+
+    int path[MAKS_NODE], len;
+    GetPathArray(T, ROOT, idx, path, &len);
+
+    printf("Untuk menuju BLOK M, silahkan mengikuti jalur Halte berikut ini!\n");
+    for (int i = len - 1; i >= 0; i--) {
+        printf("Halte %s", T[path[i]].nama);
+        if (i != 0) printf(" -> ");
+    }
+    printf("\n\n");
+
+    float totalJarak = 0;
+    for (int i = 1; i < len; i++) {
+        totalJarak += T[path[i]].jarak;
+    }
+    int pemberhentian = len;
+    int biaya = pemberhentian * BIAYA_PER_HALTE;
+
+    char strJarak[20], strBiaya[30];
+    FormatJarak(totalJarak, strJarak);
+    FormatBiaya(biaya, strBiaya);
+
+    printf("KETERANGAN\n");
+    printf("TOTAL JARAK YANG DITEMPUH \t: %s Kilometer\n", strJarak);
+    printf("BANYAK PEMBERHENTIAN \t\t: %d Halte Bus\n", pemberhentian);
+    printf("ESTIMASI BIAYA \t\t\t: %s\n\n", strBiaya);
+
+    printf("Selamat berjalan dan hati-hati dalam perjalanan!\n");
+    printf("======================================================================\n");
+}
+
 /*========================= MENU 4 =========================*/
 
 void Menu4(Isi_Tree T, int n) {
