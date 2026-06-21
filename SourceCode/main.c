@@ -339,3 +339,58 @@ void Menu5(Isi_Tree T, int n) {
         }
     }
 }
+
+/*========================= MAIN =========================*/
+
+int main() {
+    Isi_Tree T;
+    int n;
+
+    BuildTree(T, &n, "halte.txt");
+
+    if (n <= 0 || T[1].nama[0] == '\0') {
+        printf("Tidak dapat membuat Tree Rute Bus\n");
+        printf("Pastikan file halte.txt ada di folder yang sama dengan program ini\n");
+        printf("dan isinya tidak kosong / formatnya benar.\n");
+        return 1;
+    }
+
+    int pilihan;
+    char buffer[20];
+
+    do {
+        printf("\n");
+        TampilkanMenu();
+        fgets(buffer, sizeof(buffer), stdin);
+        pilihan = atoi(buffer);
+        printf("=========================================================\n");
+
+        switch (pilihan) {
+            case 1:
+                Menu1(T, n);
+                break;
+            case 2:
+                Menu2(T, n);
+                break;
+            case 3:
+                Menu3(T, n);
+                break;
+            case 4:
+                Menu4(T, n);
+                break;
+            case 5:
+                Menu5(T, n);
+                break;
+            case 6:
+                printf("\nTerima kasih telah menggunakan Program Rute Bus TransJakarta!\n");
+                break;
+            default:
+                printf("\nPilihan TIDAK TERSEDIA\n");
+                printf("Silahkan inputkan Kembali pilihan yang sesuai!\n");
+                break;
+        }
+
+    } while (pilihan != 6);
+
+    return 0;
+}
