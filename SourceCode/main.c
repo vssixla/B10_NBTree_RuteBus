@@ -79,3 +79,44 @@ void FormatBiaya(int val, char *out) {
 
     sprintf(out, "Rp%s,00", hasil);
 }
+
+/*========================= TAMPILAN MENU =========================*/
+
+void TampilkanMenu() {
+    printf("=========================================================\n");
+    printf("|             PROGRAM RUTE BUS TRANSJAKARTA             |\n");
+    printf("=========================================================\n");
+    printf("Selamat datang di Rute Bus TransJakarta wilayah Jakarta\n\n");
+    printf("Silahkan pilih menu layan di bawah ini!\n");
+    printf("1. Cek Ketersediaan Halte\n");
+    printf("2. Rute Bus dari Blok M menuju suatu Halte\n");
+    printf("3. Rute Bus dari suatu Halte menuju BLOK M\n");
+    printf("4. Rute Bus dari suatu Halte menuju Halte lain\n");
+    printf("5. Daftar Pemberhentian Halte terakhir\n");
+    printf("6. Keluar\n");
+    printf("Pilihan : ");
+}
+
+/*========================= MENU 1 =========================*/
+
+void Menu1(Isi_Tree T, int n) {
+    char input[60], nama[60];
+
+    printf("\nSilahkan Input Nama Halte : ");
+    fgets(input, sizeof(input), stdin);
+    HapusNewline(input);
+    BuangAwalanHalte(input, nama);
+
+    int idx = FindIndex(T, n, nama);
+
+    if (idx != -1) {
+        printf("\nHalte %s TERSEDIA\n", T[idx].nama);
+    } else {
+        printf("\nMohon maaf! Halte %s TIDAK TERSEDIA,\n", nama);
+        printf("Berikut daftar halte yang tersedia\n");
+        printf("=============================================\n");
+        printf("|        DAFTAR HALTE YANG TERSEDIA         |\n");
+        printf("=============================================\n");
+        PrintLevelOrder(T, n);
+    }
+}
