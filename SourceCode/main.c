@@ -324,3 +324,18 @@ void Menu4(Isi_Tree T, int n) {
     printf("Selamat berjalan dan hati-hati dalam perjalanan!\n");
     printf("======================================================================\n");
 }
+
+/*========================= MENU 5 =========================*/
+
+void Menu5(Isi_Tree T, int n) {
+    printf("==============================================================\n");
+    printf("|           DAFTAR PEMBERHENTIAN HALTE TERAKHIR             |\n");
+    printf("==============================================================\n");
+    printf("Berikut ini adalah Halte yang menjadi pemberhentian terakhir\n");
+
+    for (int i = 1; i <= n; i++) {
+        if (T[i].nama[0] != '\0' && IsLeaf(T, i)) {
+            printf("Halte %s\n", T[i].nama);
+        }
+    }
+}
